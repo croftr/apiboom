@@ -32,6 +32,11 @@ app.get('/', (req, res) => {
   res.send(ads);
 });
 
+//use this to send text such as csv format rather than uploading a file
+app.post('/upload/text', (req, res) =>{  
+  res.status(200).send('body is ' + JSON.stringify(req.body))  
+});
+
 // starting the server
 app.listen(3001, () => {
   console.log('listening on port 3001');
