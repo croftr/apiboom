@@ -20,6 +20,7 @@ app.use(helmet());
 
 // using bodyParser to parse JSON bodies into JS objects
 app.use(bodyParser.json());
+// app.use(bodyParser.text());
 
 // enabling CORS for all requests
 app.use(cors());
@@ -33,8 +34,9 @@ app.get('/', (req, res) => {
 });
 
 //use this to send text such as csv format rather than uploading a file
-app.post('/upload/text', (req, res) =>{  
-  res.status(200).send('body is ' + JSON.stringify(req.body))  
+app.post('/upload/text', bodyParser.text(), (req, res) =>{    
+  console.log('body is ', req.body);  
+  res.status(200).send('body is ' + req.body)  
 });
 
 // starting the server
