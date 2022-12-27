@@ -104,10 +104,9 @@ const RegisterPage: React.FC<RegisterPageProps> = (props) => {
 						value={data}
 						onChange={onChangeData}
 						aria-label="minimum height"
-						minRows={3}
+						minRows={10}
 						placeholder="Your data in CSV format"
-						style={{
-							// width: 200, 
+						style={{							
 							border: '1px solid lightgrey'
 						}}
 					/>
