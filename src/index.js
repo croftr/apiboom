@@ -1,19 +1,17 @@
 // ./src/index.js
 
 // importing the dependencies
-const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const helmet = require('helmet');
-const morgan = require('morgan');
+const express = require("express");
+const bodyParser = require("body-parser");
+const cors = require("cors");
+const helmet = require("helmet");
+const morgan = require("morgan");
 
 // defining the Express app
 const app = express();
 
 // defining an array to work as the database (temporary solution)
-const ads = [
-  {title: 'Hello, world (again)!'}
-];
+const ads = [{ title: "Hello, world (again)!" }];
 
 // adding Helmet to enhance your API's security
 app.use(helmet());
@@ -26,25 +24,42 @@ app.use(bodyParser.json());
 app.use(cors());
 
 // adding morgan to log HTTP requests
-app.use(morgan('combined'));
+app.use(morgan("combined"));
 
 // defining an endpoint to return all ads
-app.get('/', (req, res) => {
-  res.send(ads);
+app.get("/", (req, res) => {
+	res.send(ads);
 });
 
 //use this to send text such as csv format rather than uploading a file
-app.post('/upload/text', bodyParser.text(), (req, res) =>{    
-  console.log('body is ', req.body);  
-  res.status(200).send('body is ' + req.body)  
+app.post("/upload/text", bodyParser.text(), (req, res) => {
+	console.log("body is ", req.body);
+	res.status(200).send("body is " + req.body);
 });
 
-app.get('/:apiname/:id', (req, res) => {
-  res.send(ads);
+app.get("/:apiname/:id", (req, res) => {
+	res.send(ads);
 });
 
+app.post("/register", (req, res) => {
+	const service = req.body;
+	// Do something with the service data, such as saving it to a database
+	console.log("request body", req.body);
+
+	res.send({
+		status: "success",
+		_self: `https://apiboom/${service.name}`,
+	});
+});
+
+app.get("/apiboom/:service/:id", (req, res) => {
+	const service = req.params.service;
+	const id = req.params.id;
+	// Do something with the service and id parameters, such as querying a database or performing some other action
+	res.send(`Received request for apiboom${service} with id ${id}`);
+});
 
 // starting the server
 app.listen(3001, () => {
-  console.log('listening on port 3001');
+	console.log("listening on port 3001");
 });
