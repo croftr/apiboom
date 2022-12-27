@@ -39,6 +39,11 @@ app.post('/upload/text', bodyParser.text(), (req, res) =>{
   res.status(200).send('body is ' + req.body)  
 });
 
+app.get('/:apiname/:id', (req, res) => {
+  res.send(ads);
+});
+
+
 // starting the server
 app.listen(3001, () => {
   console.log('listening on port 3001');
