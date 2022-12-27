@@ -191,6 +191,9 @@ const RegisterPage: React.FC<RegisterPageProps> = (props) => {
 					/>
 				</div>
 
+				<div id='dataDetection'>
+					<Typography>{dataDetectionText}</Typography>
+				</div>
 
 				{dataType === 'text' && (
 					<TextareaAutosize
@@ -205,9 +208,7 @@ const RegisterPage: React.FC<RegisterPageProps> = (props) => {
 					/>
 				)}
 
-				<div id='dataDetection'>
-					<Typography>{dataDetectionText}</Typography>
-				</div>
+
 
 				{dataType !== 'text' && (
 					<div style={{ padding: 8 }}>
