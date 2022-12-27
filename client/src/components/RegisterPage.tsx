@@ -34,24 +34,31 @@ const RegisterPage: React.FC<RegisterPageProps> = (props) => {
 	const [dataDesc, setDataDesc] = useState("");
 	const [dataId, setDataId] = useState("");
 	const [dataDetectionText, setDataDetectionText] = useState("");
+	const [idField, setIdField] = useState("");
 
 	const [isFormValid, setIsFormValid] = useState(false);
 
-	const onDetectDataFormat = (str: string) => {				
-		if (/^\s*(\{[^\{\}]*\}|\[[^\[\]]*\])\s*$/.test(str)) {			
-			setDataDetectionText('json');		
-		} else if (/^\s*</.test(str)) {			
-			setDataDetectionText('xml');
-		} else if (/[,\n]/.test(str)) {			
-			
-			const rows:Array<String> = str.split('\n');
+	const onChangeIdField = (event: React.ChangeEvent<HTMLInputElement>) => {
+		setIdField(event.target.value);
+		validateForm();
+	}
 
-			const columnCount:number = rows[0].split(',').length;
-			const rowCount:number = rows.length;
+	const onDetectDataFormat = (str: string) => {
+		if (/^\s*(\{[^\{\}]*\}|\[[^\[\]]*\])\s*$/.test(str)) {
+			setDataDetectionText('json');
+		} else if (/^\s*</.test(str)) {
+			setDataDetectionText('xml');
+		} else if (/[,\n]/.test(str)) {
+
+			const rows: Array<String> = str.split('\n');
+
+			const columnCount: number = rows[0].split(',').length;
+			const rowCount: number = rows.length;
 
 			setDataDetectionText(`csv: ${columnCount} columns ${rowCount} rows`);
+			setIdField(rows[0].split(',')[0])
 
-		} else {			
+		} else {
 			setDataDetectionText('plain text');
 		}
 	}
@@ -117,7 +124,8 @@ const RegisterPage: React.FC<RegisterPageProps> = (props) => {
 			dataType,
 			data,
 			dataDesc,
-			dataId
+			dataId,			
+			idField
 		}
 
 		// Send the data to the Node.js application using axios
@@ -133,7 +141,7 @@ const RegisterPage: React.FC<RegisterPageProps> = (props) => {
 
 
 	return (
-		<Paper id='chips' style={{ height: '100%' }}>
+		<div id='registerPage' style={{ height: '100%' }}>
 			<Avatar
 				alt="Remy Sharp"
 				src={logo}
@@ -191,30 +199,38 @@ const RegisterPage: React.FC<RegisterPageProps> = (props) => {
 					/>
 				</div>
 
-				<div id='dataDetection'>
-					<Typography>{dataDetectionText}</Typography>
+				<div id='dataDetection' style={{ display: 'flex', alignItems: 'center', marginBottom: 12 }}>
+					<Typography style={{ marginRight: 20 }}>{dataDetectionText}</Typography>
+					{dataDetectionText.includes('csv') && (
+						<TextField
+							value={idField}
+							onChange={onChangeIdField}
+							id="outlined-basic"
+							label="Column used as Id"
+							variant="outlined"
+						/>
+					)}
+
 				</div>
 
 				{dataType === 'text' && (
-					<TextareaAutosize
+					<TextareaAutosize					
 						value={data}
 						onChange={onChangeData}
 						aria-label="minimum height"
-						minRows={10}
+						minRows={10}						
 						placeholder="Your data as plain text"
 						style={{
+							padding: 8,
 							border: '1px solid lightgrey'
 						}}
 					/>
 				)}
 
-
-
 				{dataType !== 'text' && (
 					<div style={{ padding: 8 }}>
 						<Typography color='error'>{`${dataType} data not yet supported`}</Typography>
 					</div>
-
 				)}
 
 				<Button
@@ -226,7 +242,7 @@ const RegisterPage: React.FC<RegisterPageProps> = (props) => {
 
 			</FormControl>
 
-		</Paper>
+		</div>
 
 	);
 };
