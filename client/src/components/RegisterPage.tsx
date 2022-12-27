@@ -56,12 +56,15 @@ const RegisterPage: React.FC<RegisterPageProps> = (props) => {
 		}
 	}
 
+	//TODO check local values as state slow to update
 	const validateForm = (type = dataType) => {
-		if (serviceName && data && dataDesc && dataId && type === 'text') {
-			setIsFormValid(true);
-		} else {
-			setIsFormValid(false);
-		}
+		// if (serviceName && data && dataDesc && dataId && type === 'text') {
+		// 	setIsFormValid(true);
+		// } else {
+		// 	setIsFormValid(false);
+		// }
+
+		setIsFormValid(true);
 	}
 
 	const onChangeServiceName = (event: React.ChangeEvent<HTMLInputElement>) => {
