@@ -1,14 +1,23 @@
 // ./src/index.js
 
 // importing the dependencies
-const express = require("express");
-const bodyParser = require("body-parser");
-const cors = require("cors");
-const helmet = require("helmet");
-const morgan = require("morgan");
+const express = require('express');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const helmet = require('helmet');
+const morgan = require('morgan');
+const mongoose = require("mongoose");
 
 // defining the Express app
 const app = express();
+
+main().catch((err) => console.log(err));
+
+async function main() {
+	await mongoose.connect("mongodb://127.0.0.1:27017/test");
+
+	// use `await mongoose.connect('mongodb://user:password@127.0.0.1:27017/test');` if your database has auth enabled
+}
 
 // defining an array to work as the database (temporary solution)
 const ads = [{ title: "Hello, world (again)!" }];
