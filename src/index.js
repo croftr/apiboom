@@ -6,9 +6,28 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const helmet = require("helmet");
 const morgan = require("morgan");
+const mongoose = require("mongoose");
+const serviceSchema = require("./models/service-schema");
+
+mongoose.set("strictQuery", false);
+const Service = mongoose.model("Service", serviceSchema);
 
 // defining the Express app
 const app = express();
+
+main().catch((err) => console.log(err));
+
+async function main() {
+	await mongoose.connect("mongodb://127.0.0.1:27017/mongodb");
+
+	// use `await mongoose.connect('mongodb://user:password@127.0.0.1:27017/test');` if your database has auth enabled
+}
+
+const db = mongoose.connection;
+db.on("error", console.error.bind(console, "connection error:"));
+db.once("open", function () {
+	console.log("Connected to MongoDB");
+});
 
 // defining an array to work as the database (temporary solution)
 const ads = [{ title: "Hello, world (again)!" }];
@@ -41,14 +60,26 @@ app.get("/:apiname/:id", (req, res) => {
 	res.send(ads);
 });
 
-app.post("/register", (req, res) => {
-	const service = req.body;
-	// Do something with the service data, such as saving it to a database
-	console.log("request body", req.body);
+// app.post("/register", (req, res) => {
+// 	const service = req.body;
+// 	// Do something with the service data, such as saving it to a database
+// 	console.log("request body", req.body);
 
-	res.send({
-		status: "success",
-		_self: `https://apiboom/${service.name}`,
+// 	res.send({
+// 		status: "success",
+// 		_self: `https://apiboom/${service.name}`,
+// 	});
+// });
+
+app.post("/addService", (req, res) => {
+	const service = new Service(req.body);
+	console.log("add service", req.body);
+	service.save((error) => {
+		if (error) {
+			res.send(error);
+		} else {
+			res.send("Service added");
+		}
 	});
 });
 
