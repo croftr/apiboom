@@ -1,4 +1,39 @@
-reg,received,problem,status
-PJ15MEU,01012010,flat tyre,fixed
-SAM9IIE,01012010,wont start,being worked on
-JU52MAM,01012010,smashed window,not started
+car registration,fault with car,fix status,date submitted
+ABC123,engine not starting,pending,2022-01-01
+DEF456,brake pads worn out,in progress,2022-01-02
+GHI789,suspension issue,completed,2022-01-03
+JKL012,engine oil leak,pending,2022-01-04
+MNO345,transmission issue,in progress,2022-01-05
+PQR678,battery not holding charge,completed,2022-01-06
+STU901,check engine light on,pending,2022-01-07
+VWX234,windshield wipers not working,in progress,2022-01-08
+YZB567,fuel pump not functioning,completed,2022-01-09
+ABC123,engine misfiring,pending,2022-01-10
+DEF456,excessive tire wear,in progress,2022-01-11
+GHI789,stalling issues,completed,2022-01-12
+JKL012,coolant leak,pending,2022-01-13
+MNO345,power steering problem,in progress,2022-01-14
+PQR678,excessive oil consumption,completed,2022-01-15
+STU901,transmission slipping,pending,2022-01-16
+VWX234,faulty spark plugs,in progress,2022-01-17
+YZB567,timing belt issue,completed,2022-01-18
+ABC123,clutch slipping,pending,2022-01-19
+DEF456,excessive engine noise,in progress,2022-01-20
+GHI789,overheating issues,completed,2022-01-21
+JKL012,catalytic converter problem,pending,2022-01-22
+MNO345,throttle body issue,in progress,2022-01-23
+PQR678,engine misalignment,completed,2022-01-24
+STU901,blown head gasket,pending,2022-01-25
+VWX234,faulty oxygen sensor,in progress,2022-01-26
+YZB567,intake manifold gasket leak,completed,2022-01-27
+ABC123,faulty fuel pump,pending,2022-01-28
+DEF456,loose transmission mount,in progress,2022-01-29
+GHI789,faulty radiator,completed,2022-01-30
+JKL012,faulty fuel injectors,pending,2022-01-31
+MNO345,faulty thermostat,in progress,2022-02-01
+PQR678,faulty starter motor,completed,2022-02-02
+STU901,faulty alternator,pending,2022-02-03
+VWX234,faulty power steering pump,in progress,2022-02-04
+YZB567,faulty timing chain,completed,2022-02-05
+ABC123,faulty engine mount,pending,2022-02-06
+DEF456,faulty drive belt,in progress,2022
