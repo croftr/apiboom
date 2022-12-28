@@ -114,13 +114,16 @@ const RegisterPage: React.FC<RegisterPageProps> = (props) => {
 	};
 
 	const handleSubmit = () => {
+
 		const payload = {
 			serviceName,
-			dataType,
-			data,
-			dataDesc,
-			dataId,
-			idField,
+			databasesIds: [{
+				dataId,
+				dataType,
+				data,
+				dataDesc,
+				idField,
+			}]
 		};
 
 		// Send the data to the Node.js application using axios
