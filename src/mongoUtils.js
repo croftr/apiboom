@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 module.exports = {
 
+    //when new user data schema is created store here.  We probably need to store these in the db as well 
     schemas: {},
 
     csvToJson: function (csv) {
