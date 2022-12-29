@@ -119,7 +119,7 @@ const RegisterPage: React.FC<RegisterPageProps> = (props) => {
 			serviceName,
 			databasesIds: [{
 				dataId,
-				dataType,
+				dataType: dataDetectionText.includes('csv') ? 'csv' : dataType,
 				data,
 				dataDesc,
 				idField,

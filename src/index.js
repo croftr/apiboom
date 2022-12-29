@@ -9,6 +9,8 @@ const morgan = require("morgan");
 const mongoose = require("mongoose");
 const serviceSchema = require("./models/service-schema");
 
+const mongoUtils = require('./mongoUtils');
+
 mongoose.set("strictQuery", false);
 const Service = mongoose.model("Service", serviceSchema);
 
@@ -51,16 +53,31 @@ app.get("/", (req, res) => {
 });
 
 //Add new service and store data 
-app.post("/addService", (req, res) => {
-	const service = new Service(req.body);
+app.post("/addService", async (req, res) => {
+
 	console.log("add service", req.body);
+
+	let status = 'success'
+
+	const service = new Service(req.body);
+
 	service.save((error) => {
 		if (error) {
-			res.send(error);
+			status = error;
 		} else {
-			res.send("Service added");
+			status = "Service added";
 		}
 	});
+
+	/**
+	 * for csv data create seperate mongo collection to store it in
+	 * so we can query it back by specified fields 
+	 */
+	if (req.body.databasesIds[0].dataType === 'csv'){
+		mongoUtils.generateSchema(req.body);
+	}
+	
+	res.send({ status: 'success' });
 });
 
 /**
