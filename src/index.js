@@ -50,27 +50,7 @@ app.get("/", (req, res) => {
 	res.send(ads);
 });
 
-//use this to send text such as csv format rather than uploading a file
-app.post("/upload/text", bodyParser.text(), (req, res) => {
-	console.log("body is ", req.body);
-	res.status(200).send("body is " + req.body);
-});
-
-app.get("/:apiname/:id", (req, res) => {
-	res.send(ads);
-});
-
-// app.post("/register", (req, res) => {
-// 	const service = req.body;
-// 	// Do something with the service data, such as saving it to a database
-// 	console.log("request body", req.body);
-
-// 	res.send({
-// 		status: "success",
-// 		_self: `https://apiboom/${service.name}`,
-// 	});
-// });
-
+//Add new service and store data 
 app.post("/addService", (req, res) => {
 	const service = new Service(req.body);
 	console.log("add service", req.body);
@@ -83,12 +63,50 @@ app.post("/addService", (req, res) => {
 	});
 });
 
-app.get("/apiboom/:service/:id", (req, res) => {
-	const service = req.params.service;
-	const id = req.params.id;
-	// Do something with the service and id parameters, such as querying a database or performing some other action
-	res.send(`Received request for apiboom${service} with id ${id}`);
+/**
+ * Display a summary of the service and data sources is has 
+ */
+app.get("/:service", async (req, res) => {
+
+	console.log(`get Service info`);
+
+	const serviceName = req.params.service;
+
+	const serviceFromMongo = await (await Service.findOne({ serviceName: { $in: serviceName } }));
+
+	const serviceSummary = {
+		serviceName: serviceFromMongo.serviceName,
+		databases: serviceFromMongo.databasesIds.map(i => {
+			return {
+				dataId: i.dataId,
+				dataDesc: i.dataDesc,
+				dataType: i.dataType,
+				idField: i.idField
+			}
+		})
+	}
+		
+	res.send(serviceSummary);
 });
+
+/**
+ * Get the data from a data source specified in ?dataid=xxx
+ */
+app.get("/:service/data", async (req, res) => {
+
+	const serviceName = req.params.service;
+
+	const dataId = req.query.dataid;
+
+	console.log(`get data ${dataId} for service ${serviceName}`);
+
+	const serviceFromMongo = await (await Service.findOne({ serviceName: { $in: serviceName } }));
+		
+	const dataFromDatabase = serviceFromMongo.databasesIds.find(i => i.dataId === dataId);
+
+	res.send(dataFromDatabase);
+});
+
 
 // starting the server
 app.listen(3001, () => {
