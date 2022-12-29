@@ -12,7 +12,9 @@ const serviceSchema = require("./models/service-schema");
 const mongoUtils = require('./mongoUtils');
 
 mongoose.set("strictQuery", false);
+
 const Service = mongoose.model("Service", serviceSchema);
+
 
 // defining the Express app
 const app = express();

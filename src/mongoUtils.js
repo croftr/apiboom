@@ -1,9 +1,38 @@
 const mongoose = require("mongoose");
 
+
+const userDatabasesSchema = require("./models/user-databases-schema");
+const UserDatabases = mongoose.model("UserDatabases", userDatabasesSchema);
+
 module.exports = {
 
     //when new user data schema is created store here.  We probably need to store these in the db as well 
     schemas: {},
+
+    getUserSchema: function (schemaName) {
+        const serviceFromMongo = UserDatabases.findOne({ schemaName: schemaName });
+    },
+
+    addUserSchemaToDatabase: function ({ schemaName, schema }) {
+
+        const data = {
+            schemaName,
+            dataType: 'csv',
+            dataDesc: 'some csv data',
+            schema,
+        }
+
+        const userDatabase = new UserDatabases(data);
+
+        userDatabase.save((error) => {
+            if (error) {
+                status = error;
+            } else {
+                status = "Service added";
+            }
+        });
+
+    },
 
     csvToJson: function (csv) {
         // Split the CSV string into an array of lines
@@ -26,7 +55,7 @@ module.exports = {
         return json;
     },
 
-    generateSchema: function async(databaseDetails) {
+    generateSchema: function async (databaseDetails) {
 
         const serviceDatabaseName = `${databaseDetails.serviceName}_${databaseDetails.databasesIds[0].dataId}`
         console.log('create mongo collection with name ', serviceDatabaseName);
@@ -54,6 +83,10 @@ module.exports = {
                 
         const ServiceDatabase = mongoose.model(serviceDatabaseName, newSchema);        
         this.schemas[serviceDatabaseName] = ServiceDatabase;
+
+        //store schema in DB so we can look it up to query or add to later on 
+        this.addUserSchemaToDatabase({ schemaName: serviceDatabaseName, schema: ServiceDatabase });
+
         ServiceDatabase.insertMany(json);
         
     }
