@@ -21,7 +21,6 @@ main().catch((err) => console.log(err));
 
 async function main() {
 	await mongoose.connect("mongodb://127.0.0.1:27017/mongodb");
-
 	// use `await mongoose.connect('mongodb://user:password@127.0.0.1:27017/test');` if your database has auth enabled
 }
 
@@ -55,7 +54,7 @@ app.get("/", (req, res) => {
 //Add new service and store data 
 app.post("/addService", async (req, res) => {
 
-	console.log("add service", req.body);
+	// console.log("add service", req.body);
 
 	let status = 'success'
 
@@ -123,8 +122,22 @@ app.get("/:service/data", async (req, res) => {
 	const dataFromDatabase = serviceFromMongo.databasesIds.find(i => i.dataId === dataId);
 
 	if (itemId) {
+		console.log('query by item id ', itemId);
 		//TODO we have to store the data in a seperate collection so we can query it by the id field 		
-		res.send(`Coming soon: QUERY ${dataFromDatabase.idField} = ${itemId}`);
+		// res.send(`Coming soon: QUERY ${dataFromDatabase.idField} = ${itemId}`);
+		const userSchema = mongoUtils.schemas["robsservice_cars"];
+
+		console.log('userSchema ', userSchema);
+		// const Model = mongoose.model("robsservice_cars", userSchema);
+		// console.log('Model ', Model);
+		const fieldToQuery = dataFromDatabase.idField.replace(/\s/g, '');
+		console.log('fieldToQuery ', fieldToQuery);
+
+		const itemFromDatabase = await userSchema.find({ [fieldToQuery]: itemId });
+
+		console.log('result ', itemFromDatabase);
+
+		res.send(itemFromDatabase);
 	} else {
 		res.send(dataFromDatabase);
 	}
