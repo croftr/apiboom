@@ -98,13 +98,20 @@ app.get("/:service/data", async (req, res) => {
 
 	const dataId = req.query.dataid;
 
-	console.log(`get data ${dataId} for service ${serviceName}`);
+	const itemId = req.query.itemid;
+
+	console.log(`get data ${dataId} for service ${serviceName} using itemid ${itemId}`);
 
 	const serviceFromMongo = await (await Service.findOne({ serviceName: { $in: serviceName } }));
-		
 	const dataFromDatabase = serviceFromMongo.databasesIds.find(i => i.dataId === dataId);
 
-	res.send(dataFromDatabase);
+	if (itemId) {
+		//TODO we have to store the data in a seperate collection so we can query it by the id field 		
+		res.send(`Coming soon: QUERY ${dataFromDatabase.idField} = ${itemId}`);
+	} else {
+		res.send(dataFromDatabase);
+	}
+	
 });
 
 
