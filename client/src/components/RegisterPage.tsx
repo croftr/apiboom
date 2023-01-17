@@ -4,13 +4,10 @@ import logo from "../APIBoomLogo.png";
 
 import TextareaAutosize from "@mui/base/TextareaAutosize";
 
-import ButtonUnstyled from "@mui/base/ButtonUnstyled";
 
 import {
 	TextField,
-	Paper,
 	Avatar,
-	FormGroup,
 	FormControl,
 	MenuItem,
 	FormHelperText,
@@ -21,6 +18,7 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import axios from "axios";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
+import SignOut from "./SignOut";
 
 interface RegisterPageProps {
 	// Props go here
@@ -114,16 +112,19 @@ const RegisterPage: React.FC<RegisterPageProps> = (props) => {
 	};
 
 	const handleSubmit = () => {
-
 		const payload = {
 			serviceName,
-			databasesIds: [{
-				dataId,
-				dataType: dataDetectionText.includes('csv') ? 'csv' : dataType,
-				data,
-				dataDesc,
-				idField,
-			}]
+			databasesIds: [
+				{
+					dataId,
+					dataType: dataDetectionText.includes("csv")
+						? "csv"
+						: dataType,
+					data,
+					dataDesc,
+					idField,
+				},
+			],
 		};
 
 		// Send the data to the Node.js application using axios
@@ -138,6 +139,7 @@ const RegisterPage: React.FC<RegisterPageProps> = (props) => {
 
 	return (
 		<div id='registerPage' style={{ height: "100%" }}>
+			<SignOut />
 			<Avatar
 				alt='Remy Sharp'
 				src={logo}
@@ -154,7 +156,6 @@ const RegisterPage: React.FC<RegisterPageProps> = (props) => {
 				<TextField
 					value={serviceName}
 					onChange={onChangeServiceName}
-					id='outlined-basic'
 					label='Service Name'
 					variant='outlined'
 				/>
@@ -184,7 +185,6 @@ const RegisterPage: React.FC<RegisterPageProps> = (props) => {
 							label='Data description'
 							placeholder='e.g cars I fixed or customer bookings'
 							onChange={onChangeDataDesc}
-							id='outlined-basic'
 							variant='outlined'
 						/>
 						<FormHelperText style={{ marginBottom: 12 }}>
@@ -196,7 +196,6 @@ const RegisterPage: React.FC<RegisterPageProps> = (props) => {
 						style={{ flex: 1 }}
 						value={dataId}
 						onChange={onChangeDataId}
-						id='outlined-basic'
 						label='Data Id'
 						variant='outlined'
 					/>
@@ -217,7 +216,6 @@ const RegisterPage: React.FC<RegisterPageProps> = (props) => {
 						<TextField
 							value={idField}
 							onChange={onChangeIdField}
-							id='outlined-basic'
 							label='Column used as Id'
 							variant='outlined'
 						/>
